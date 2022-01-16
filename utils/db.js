@@ -13,7 +13,6 @@ class DBClient {
       await this.client.connect()
         .catch((err) => {
           this.connectionSuccesful = false;
-          console.log('\x1B[93mMongo Connection Error: \x1B[m', err);
         });
       this.connectionSuccesful = true;
       this.db = this.client.db(this.dbName);
