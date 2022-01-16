@@ -3,7 +3,7 @@ import { env } from 'process';
 
 class DBClient {
   constructor() {
-    // this.connectionSuccesful = false;
+    this.connectionSuccesful = false;
     this.dbName = (env.DB_DATABASE !== undefined) ? env.DB_DATABASE : 'files_manager';
     this.host = (env.DB_HOST !== undefined) ? env.DB_HOST : 'localhost';
     this.port = (env.DB_PORT !== undefined) ? env.DB_PORT : '27017';
