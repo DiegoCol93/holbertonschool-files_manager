@@ -9,7 +9,7 @@ class DBClient {
     this.port = (env.DB_PORT !== undefined) ? env.DB_PORT : '27017';
     this.url = `mongodb://${this.host}:${this.port}`;
     (async () => {
-      this.client = new MongoClient(this.url);
+      this.client = new MongoClient(this.url,{ useUnifiedTopology: true });
       await this.client.connect()
         .catch((err) => {
           this.connectionSuccesful = false;
