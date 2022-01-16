@@ -24,6 +24,7 @@ class RedisClient {
       this.connectionSuccesful = true;
     })();
 
+    // Create async methods bounded to client using promisify.
     this.get = promisify(this.client.get).bind(this.client);
     this.psetex = promisify(this.client.psetex).bind(this.client);
     this.del = promisify(this.client.del).bind(this.client);
@@ -54,7 +55,7 @@ class RedisClient {
     /** ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
      * Deletes the value of the provided key in Redis.
      */
-	return this.del(key);
+    return this.del(key);
   }
 }
 
