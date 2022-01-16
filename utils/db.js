@@ -9,16 +9,14 @@ class DBClient {
     this.port = (env.DB_PORT !== undefined) ? env.DB_PORT : '27017';
     this.url = `mongodb://${this.host}:${this.port}`;
     (async () => {
-      this.client = new MongoClient(this.url,{ useUnifiedTopology: true });
+      this.client = new MongoClient(this.url, { useUnifiedTopology: true });
       await this.client.connect()
-        .catch((err) => {
+        .catch(() => {
           this.connectionSuccesful = false;
         });
       this.connectionSuccesful = true;
       this.db = this.client.db(this.dbName);
-    })().catch((err) => {
-      console.log('\x1B[91mERROR\x1B[m', err);
-    });
+    })().catch(() => {});
   }
 
   isAlive() {
