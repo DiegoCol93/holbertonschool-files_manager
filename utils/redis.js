@@ -5,14 +5,9 @@
 import { createClient } from 'redis';
 import { promisify } from 'util';
 
-/**
- * Encapsulates Redis client's methods and properties.
- */
 class RedisClient {
+  // Creates Redis client and initial class properties. ━━━━━━━━━━━━━━━━━━━━━━━
   constructor() {
-    /** ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-     * Creates Redis client and initial class properties.
-     */
     (async () => {
       // Create redis client object.
       this.client = createClient()
@@ -30,31 +25,23 @@ class RedisClient {
     this.del = promisify(this.client.del).bind(this.client);
   }
 
+  // Checks if the connection using the Redis client was succesful. ━━━━━━━━━━━
   isAlive() {
-    /** ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-     * Checks if the connection using the Redis client was succesful.
-     */
     return this.connectionSuccesful;
   }
 
+  // Gets the value of the provided key from Redis. ━━━━━━━━━━━━━━━━━━━━━━━━━━━
   async get(key) {
-    /** ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-     * Gets the value of the provided key from Redis.
-     */
     return this.get(key);
   }
 
+  // Sets the value and expiration time of the provided key in Redis. ━━━━━━━━━
   async set(key, value, duration) {
-    /** ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-     * Sets the value and expiration time of the provided key in Redis.
-     */
     return this.psetex(key, duration, value);
   }
 
+  // Deletes the value of the provided key in Redis. ━━━━━━━━━━━━━━━━━━━━━━━━━━
   async del(key) {
-    /** ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-     * Deletes the value of the provided key in Redis.
-     */
     return this.del(key);
   }
 }
