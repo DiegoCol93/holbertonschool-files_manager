@@ -1,48 +1,32 @@
-/**
- * Module for storing the RedisClient class definition.
- * @module RedisClient
- */
-import { createClient } from 'redis';
-import { promisify } from 'util';
+const redis = require('redis');
+const { promisify } = require('util');
 
 class RedisClient {
-  // Creates Redis client and initial class properties. ━━━━━━━━━━━━━━━━━━━━━━━
   constructor() {
-    (async () => {
-      // Create redis client object.
-      this.client = createClient()
-        .on('error', (err) => {
-          this.connectionSuccesful = false;
-          console.log('Redis Client Error: ', err);
-        });
-      // Set connectionSuccessful to true.
-      this.connectionSuccesful = true;
-    })();
+    this.client = redis.createClient();
+    this.getAsync = promisify(this.client.get).bind(this.client);
 
-    // Create async methods bounded to client using promisify.
-    this.get = promisify(this.client.get).bind(this.client);
-    this.psetex = promisify(this.client.psetex).bind(this.client);
-    this.del = promisify(this.client.del).bind(this.client);
+    this.client.on('error', (error) => {
+      console.log(`Redis client not connected to the server: ${error}`);
+    });
   }
 
-  // Checks if the connection using the Redis client was succesful. ━━━━━━━━━━━
   isAlive() {
-    return this.connectionSuccesful;
+    return this.client.connected;
   }
 
-  // Gets the value of the provided key from Redis. ━━━━━━━━━━━━━━━━━━━━━━━━━━━
   async get(key) {
-    return this.get(key);
+    const value = await this.getAsync(key);
+    return value;
   }
 
-  // Sets the value and expiration time of the provided key in Redis. ━━━━━━━━━
   async set(key, value, duration) {
-    return this.psetex(key, duration, value);
+    this.client.set(key, value);
+    this.client.expire(key, duration);
   }
 
-  // Deletes the value of the provided key in Redis. ━━━━━━━━━━━━━━━━━━━━━━━━━━
   async del(key) {
-    return this.del(key);
+    this.client.del(key);
   }
 }
 

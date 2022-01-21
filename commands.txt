@@ -1,4 +1,0 @@
-npm run start-server
-mongod --bind_ip 127.0.0.1 --dbpath=/home/diego/Holberton/holbertonschool-files_manager/files_manager
-redis-server
-watch --color -pn1 "npx eslint utils/db.js --color"
